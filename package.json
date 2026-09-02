@@ -1,0 +1,33 @@
+{
+  "name": "sieve_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc && npx prisma generate",
+    "start": "node dist/server.js",
+    "db:push": "npx prisma db push",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "prisma skills sync || exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@fastify/jwt": "^8.0.1",
+    "@prisma/client": "^5.10.2",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^17.4.2",
+    "fastify": "^4.26.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^26.4.1",
+    "prisma": "^5.10.2",
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3"
+  }
+}
