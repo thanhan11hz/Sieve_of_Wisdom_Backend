@@ -137,6 +137,26 @@ fastify.post('/api/auth/refresh', async (request, reply) => {
 // -----------------------------------------------------------------------------
 // 2. SYNC ROUTES
 // -----------------------------------------------------------------------------
+// Sync Category
+fastify.get('/api/sync/category', { onRequest: [fastify.authenticate] }, async (request, reply) => {
+    const { last_updated } = request.query as { last_updated?: string };
+    const lastUpdatedTimestamp = Number(last_updated || 0);
+
+    const categories = await prisma.category.findMany({
+      where: {
+        updatedAt: { gt: new Date(lastUpdatedTimestamp) },
+      },
+    });
+
+    const response = categories.map((c) => ({
+      id: c.id,
+      name: c.name,
+      classification: c.classification,
+      price: c.price,
+    }));
+
+    return reply.send(response);
+  });
 
 // Sync Access
 fastify.post('/api/sync/access', { onRequest: [fastify.authenticate] }, async (request, reply) => {
