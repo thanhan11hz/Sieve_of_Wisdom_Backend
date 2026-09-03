@@ -191,17 +191,21 @@ fastify.get(
       });
     }
 
+    const userId = Number(user_id);
+
     const accesses = await prisma.access.findMany({
       where: {
-        userId: Number(user_id),
+        userId,
       },
       select: {
+        userId: true,
         categoryId: true,
       },
     });
 
     return reply.send(
       accesses.map((access) => ({
+        user_id: access.userId,
         category_id: access.categoryId,
       }))
     );
