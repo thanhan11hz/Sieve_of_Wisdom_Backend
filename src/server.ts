@@ -176,6 +176,38 @@ fastify.post('/api/sync/access', { onRequest: [fastify.authenticate] }, async (r
   return reply.send({ success: true });
 });
 
+// Get User Access
+fastify.get(
+  '/api/sync/access',
+  { onRequest: [fastify.authenticate] },
+  async (request, reply) => {
+    const { user_id } = request.query as {
+      user_id?: string;
+    };
+
+    if (!user_id) {
+      return reply.status(400).send({
+        message: 'Missing user_id',
+      });
+    }
+
+    const accesses = await prisma.access.findMany({
+      where: {
+        userId: Number(user_id),
+      },
+      select: {
+        categoryId: true,
+      },
+    });
+
+    return reply.send(
+      accesses.map((access) => ({
+        category_id: access.categoryId,
+      }))
+    );
+  }
+);
+
 // Sync Coin
 fastify.post('/api/sync/coin', { onRequest: [fastify.authenticate] }, async (request, reply) => {
   const { user_id, coin } = request.body as { user_id: number; coin: number };
