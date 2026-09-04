@@ -246,10 +246,7 @@ fastify.get('/api/sync/questions', { onRequest: [fastify.authenticate] }, async 
     id: Number(q.id),
     category_id: q.categoryId,
     asking: q.asking,
-    answers: q.answers.map((a) => ({
-      id: Number(a.id),
-      answering: a.answering,
-    })),
+    answers: q.answers.map((a) => a.answering),
   }));
 
   return reply.send(response);
