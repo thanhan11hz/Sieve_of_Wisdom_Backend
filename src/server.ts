@@ -65,7 +65,7 @@ fastify.post('/api/auth/register', async (request, reply) => {
       username,
       email,
       password: hashedPassword, 
-      coin: 100 
+      coin: 1000 
     },
   });
 
